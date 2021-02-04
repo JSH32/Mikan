@@ -10,4 +10,4 @@ git clone https://github.com/MikanEmu/mikan.git
 cd mikan
 cmake CMakeLists.txt
 cmake --build cmake-build-debug --target app -- -j4
-``
+```
