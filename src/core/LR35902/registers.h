@@ -30,7 +30,7 @@ namespace Mikan {
     };
 
     /**
-     * The F(Flag) register is a bitmask, the flag register stores all flags below
+     * The register is a bitmask, the flag register store all flags in this enum
      */
     enum Flag {
         // Set when the result of math operations is zero or two values match with the CP instruction
@@ -39,7 +39,7 @@ namespace Mikan {
         // This bit is set if a subtraction was performed in the last instruction
         SUBTRACT = 0b01000000,
 
-        // Set if a carry occurred from the lowernibble in the last math operation.
+        // Set if a carry occurred from the lower nibble in the last math operation.
         HALF_CARRY = 0b00100000,
 
         // Set if a carry occurred from the last operation or if register A is the smaller value when executing the CP instruction.
