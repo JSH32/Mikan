@@ -6,7 +6,7 @@
 
 namespace Mikan {
     /**
-     * @brief LR35902 CPU
+     * @brief Gameboy modified SHARP LR35902 CPU
      */
     class CPU {
     public:

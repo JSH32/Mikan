@@ -30,7 +30,7 @@ namespace Mikan {
     };
 
     /**
-     * The register is a bitmask, the flag register store all flags in this enum
+     * The flag register is a bitmask, it will store all flags in this enum
      */
     enum Flag {
         // Set when the result of math operations is zero or two values match with the CP instruction

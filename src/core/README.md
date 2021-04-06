@@ -1,0 +1,1 @@
+Emulation of the Gameboy variant Sharp LR35902 CPU, the CPU the original gameboy used

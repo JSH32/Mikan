@@ -1,1 +1,0 @@
-Emulation of the Sharp LR35902 CPU, the CPU the original gameboy used
