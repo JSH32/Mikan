@@ -17,7 +17,7 @@ namespace Mikan {
          */
         uint8_t data = 0x00;
 
-        void raise(InterruptFlag flag);
+        void set(InterruptFlag flag);
     };
 
     /**
