@@ -1,16 +1,33 @@
 #include <iostream>
 
-#include <QtWidgets>
-#include "MainWindow.h"
+#include <SFML/Graphics.hpp>
 
+
+#include <imgui.h>
+#include <imgui-SFML.h>
 
 int main(int argc, char** argv) {
-    QApplication app(argc, argv);
+    sf::RenderWindow window(sf::VideoMode(512, 512), "Mikan", sf::Style::Titlebar | sf::Style::Close);
+    ImGui::SFML::Init(window);
 
-    app.setWindowIcon(QIcon(":/logo.png"));
+    sf::Clock deltaClock;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(event);
 
-    MainWindow window;
-    window.show();
-    
-    return app.exec();
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        ImGui::SFML::Update(window, deltaClock.restart());
+
+        ImGui::Begin("Test");
+        ImGui::Button("Test");
+        ImGui::End();
+
+        window.clear();
+        ImGui::SFML::Render(window);
+        window.display();
+    }
 }
