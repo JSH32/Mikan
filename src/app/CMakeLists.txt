@@ -6,11 +6,10 @@ file(GLOB_RECURSE SRC
     ${CMAKE_CURRENT_LIST_DIR}/*.h
 )
 
-add_executable(app ${SRC} ${IMGUI_SRC})
+add_executable(app ${SRC})
 target_include_directories(app PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
-# Find SFML shared libraries
-find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
-target_link_libraries(app sfml-graphics)
-
-target_link_libraries(app ImGui-SFML::ImGui-SFML)
+# GLAD and GLFW
+target_link_libraries(app PRIVATE glad)
+target_link_libraries(app PRIVATE glfw)
+target_link_libraries(app PRIVATE imgui)

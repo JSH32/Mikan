@@ -1,9 +1,7 @@
 #pragma once
 
-namespace Mikan
-{
-    struct OpCode
-    {
+namespace Mikan {
+    struct OpCode {
         // Instruction string representation
         const char *name;
 
