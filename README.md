@@ -8,6 +8,7 @@ Building has been tested on Ubuntu and Windows. On Windows all dependencies are 
 
 ### Build commands
 ```bash
+git submodule update --init --recursive
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config Release --target app
