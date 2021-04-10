@@ -85,6 +85,7 @@ int main(int argc, char** argv) {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // Uncomment if using viewports
+        //
         // SDL_Window* currentWindow = SDL_GL_GetCurrentWindow();
         // SDL_GLContext currentContext = SDL_GL_GetCurrentContext();
         // ImGui::UpdatePlatformWindows();
