@@ -7,9 +7,15 @@ file(GLOB_RECURSE SRC
 )
 
 add_executable(app ${SRC})
-target_include_directories(app PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(app PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS})
 
-# GLAD and GLFW
 target_link_libraries(app PRIVATE glad)
-target_link_libraries(app PRIVATE glfw)
 target_link_libraries(app PRIVATE imgui)
+target_link_libraries(app PRIVATE ${SDL2_LIBS})
+
+if(WIN32)
+    foreach(DLL ${SDL2_DLLS})
+        add_custom_command(TARGET app POST_BUILD COMMAND
+            ${CMAKE_COMMAND} -E copy_if_different ${DLL} $<TARGET_FILE_DIR:app>)
+    endforeach()
+endif()
