@@ -1,4 +1,4 @@
-name: Ubuntu
+name: Windows
 
 on: [push]
 
@@ -7,7 +7,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v1
@@ -16,9 +16,6 @@ jobs:
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
-
-    - name: Install SDL2
-      run: sudo apt update && sudo apt install libsdl2-dev
 
     - name: Configure CMake
       shell: bash
