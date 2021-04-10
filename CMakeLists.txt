@@ -35,9 +35,9 @@ find_package(SDL2 REQUIRED COMPONENTS main)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glad)
 
 # IMGUI
-file(GLOB IMGUI_SRC ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui/*.cpp ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui_impl/*.cpp)
+file(GLOB_RECURSE IMGUI_SRC ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui/*.cpp)
 add_library(imgui ${IMGUI_SRC})
-target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui_impl ${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS})
+target_include_directories(imgui PUBLIC ${CMAKE_CURRENT_LIST_DIR}/vendor/imgui ${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS})
 target_link_libraries(imgui PUBLIC ${SDL2_LIBS})
 target_link_libraries(imgui PUBLIC glad)
 
