@@ -8,6 +8,7 @@ file(GLOB_RECURSE SRC
 
 add_executable(app ${SRC})
 target_include_directories(app PUBLIC ${CMAKE_CURRENT_LIST_DIR} ${SDL2_INCLUDE_DIRS} ${SDL2main_INCLUDE_DIRS})
+set_target_properties(app PROPERTIES OUTPUT_NAME "Mikan") # Change output name
 
 target_link_libraries(app PRIVATE glad)
 target_link_libraries(app PRIVATE imgui)
