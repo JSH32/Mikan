@@ -1,4 +1,4 @@
-name: CMake
+name: Ubuntu
 
 on: [push]
 
@@ -23,7 +23,7 @@ jobs:
       run: cmake -E make_directory ${{github.workspace}}/build
 
     - name: Install SDL2
-      run: sudo apt install libsdl2-dev
+      run: suto apt update && sudo apt install libsdl2-dev
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
