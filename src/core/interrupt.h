@@ -23,7 +23,7 @@ namespace Mikan {
     /**
      * @brief Interrupt modes in the CPU
      */
-    enum InterruptFlag {
+    enum class InterruptFlag {
         VBlank  = 0,
         LCDStat = 1,
         Timer   = 2,

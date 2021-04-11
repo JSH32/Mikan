@@ -28,7 +28,7 @@ namespace Mikan {
         void keyUp(JoypadKey key);
     };
 
-    enum JoypadKey {
+    enum class JoypadKey {
         Right  = 0b00000001,
         Left   = 0b00000010,
         Up     = 0b00000100,

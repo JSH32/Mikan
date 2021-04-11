@@ -3,7 +3,7 @@
 namespace Mikan {
     void Joypad::keyDown(JoypadKey key) {
         this->matrix &= !(uint8_t)key;
-        this->interrupt.raise(InterruptFlag::Joypad);
+        this->interrupt.set(InterruptFlag::Joypad);
     }
 
     void Joypad::keyUp(JoypadKey key) {
