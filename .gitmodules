@@ -1,0 +1,9 @@
+[submodule "vendor/glfw"]
+	path = vendor/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "vendor/stb"]
+	path = vendor/stb
+	url = https://github.com/nothings/stb.git
+[submodule "vendor/cmake/cmrc"]
+	path = vendor/cmake/cmrc
+	url = https://github.com/vector-of-bool/cmrc.git

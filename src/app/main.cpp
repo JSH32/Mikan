@@ -1,67 +1,84 @@
 #include <iostream>
 
 #include <glad/glad.h>
-#include <SDL.h>
+#include <GLFW/glfw3.h>
+
 #include <imgui.h>
-#include <imgui_impl_sdl.h>
+#include <imgui_impl_glfw.h>
 #include <imgui_internal.h>
 #include <imgui_impl_opengl3.h>
 
 #include "gui.h"
+#include "util.h"
+#include "version.h"
+
+#include <cmrc/cmrc.hpp>
+CMRC_DECLARE(resources);
 
 int main(int argc, char** argv) {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
+    auto resources = cmrc::resources::get_filesystem();
+
+    if (!glfwInit()) {
         std::cerr << "Initialization failed" << std::endl;
-        return -1;
+        return 1;
     }
 
-    // Create window with graphics context
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_Window* window = SDL_CreateWindow("Mikan", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, window_flags);
-    SDL_GLContext gl_context = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, gl_context);
-    SDL_GL_SetSwapInterval(1); // Enable vsync
+    GLFWwindow* window = glfwCreateWindow(480, 432, "Mikan", NULL, NULL);
+    if (!window) {
+        std::cerr << "Window creation failed" << std::endl;
+        return 1;
+    }
 
-    gladLoadGL();
+    glfwSetWindowAspectRatio(window, 10, 9);
 
-    IMGUI_CHECKVERSION();
+    glfwMakeContextCurrent(window);
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+    // Key callback
+    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+    });
+
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
     
-    ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((const char*)glGetString(GLAD_GL_VERSION_4_6));
 
-    ImVec4 clear_color = ImVec4(0.16f, 0.2f, 0.23f, 1.00f);
+    ImVec4 clearColor = ImVec4(0.16f, 0.2f, 0.23f, 1.00f);
 
-    bool done = false;
-    while (!done) {
-        // Process events here
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            ImGui_ImplSDL2_ProcessEvent(&event);
-            if (event.type == SDL_QUIT)
-                done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
-                done = true;
-        }
+    cmrc::file aboutFile = resources.open("about.png");
+
+    int aboutW, aboutH;
+    GLuint aboutTexture;
+    loadTextureFromImage((unsigned char*)aboutFile.begin(), aboutFile.size(), aboutTexture, aboutW, aboutH);
+    bool showAbout = false;
+
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame(window);
+        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+
 
         // Write frame/gui code in this scope
         {
             if (ImGui::BeginMainMenuBar()) {
+                std::cout << ImGui::GetWindowSize().y << std::endl;
                 if (ImGui::BeginMenu("File")) {
                     if (ImGui::MenuItem("Open")) {
                         
                     }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Help")) {
+                    if (ImGui::MenuItem("About"))
+                        showAbout = true;
                     ImGui::EndMenu();
                 }
 
@@ -70,7 +87,16 @@ int main(int argc, char** argv) {
 
             showDockspace();
 
-            ImGui::Begin("Game", nullptr);
+            if (showAbout) {
+                ImGui::Begin("About", &showAbout);
+                ImGui::Image((void*)(intptr_t)aboutTexture, ImVec2((float)aboutW/3, (float)aboutH/3));
+                ImGui::Text(GIT_BRANCH);
+                ImGui::Text(GIT_COMMIT_HASH);
+                ImGui::Text(GIT_COMMIT_DATE);
+                ImGui::End();
+            }
+
+            ImGui::Begin("Game");
             ImGui::Text("No game currently loaded");
             ImGui::Button("Open");
             ImGui::End();
@@ -79,30 +105,34 @@ int main(int argc, char** argv) {
         ImGui::EndFrame();
 
         ImGui::Render();
-        glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+        int displayW, displayH;
+        glfwGetFramebufferSize(window, &displayW, &displayH);
+        glViewport(0, 0, displayW, displayH);
+        glClearColor(clearColor.x * clearColor.w, clearColor.y * clearColor.w, clearColor.z * clearColor.w, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        // Uncomment if using viewports
-        //
-        // SDL_Window* currentWindow = SDL_GL_GetCurrentWindow();
-        // SDL_GLContext currentContext = SDL_GL_GetCurrentContext();
-        // ImGui::UpdatePlatformWindows();
-        // ImGui::RenderPlatformWindowsDefault();
-        // SDL_GL_MakeCurrent(currentWindow, currentContext);
+        // Update and Render additional Platform Windows
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
 
-        SDL_GL_SwapWindow(window);
+        glfwSwapBuffers(window);
     }
+
+    // Delete textures
+    glDeleteTextures(1, &aboutTexture);
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    SDL_GL_DeleteContext(gl_context);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    glfwDestroyWindow(window);
+    glfwTerminate();
 
     return 0;
 }
