@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
     
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((const char*)glGetString(GLAD_GL_VERSION_4_6));
@@ -65,7 +65,6 @@ int main(int argc, char** argv) {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-
         // Write frame/gui code in this scope
         {
             if (ImGui::BeginMainMenuBar()) {
@@ -85,6 +84,8 @@ int main(int argc, char** argv) {
             }
 
             showDockspace();
+
+            ImGui::ShowDemoWindow();
 
             if (showAbout) {
                 ImGui::Begin("About", &showAbout);

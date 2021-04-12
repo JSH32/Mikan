@@ -15,4 +15,4 @@ cmake --build . --config Release --target app
 ```
 
 ### Resources
-There was one primary resource used while developing the emulator, that was the [Gameboy Development Wiki](https://gbdev.gg8.se/wiki/articles/Main_Page). Each component of the emulator is accompanied with documentation and text from the wiki.
+There was one primary resource used while developing the emulator, that was the [Gameboy Development Wiki](https://gbdev.gg8.se/wiki/articles/Main_Page). Each core component of the emulator is modeled after and accompanied with documentation from the wiki. Reading the code and comments of the `core` module might aswell be reading the wiki.
