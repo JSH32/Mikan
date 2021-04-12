@@ -14,6 +14,9 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Install dependencies
+      run: sudo apt install -y libx11-dev
+
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
 
