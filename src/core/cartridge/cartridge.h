@@ -17,6 +17,6 @@ namespace Mikan {
         /**
          * Get all cartridge RAM content
          */
-        std::vector<uint8_t> dump();
+        virtual std::vector<uint8_t> dump() = 0;
     };
 }
