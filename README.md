@@ -13,3 +13,6 @@ mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --config Release --target app
 ```
+
+### Resources
+There was one primary resource used while developing the emulator, that was the [Gameboy Development Wiki](https://gbdev.gg8.se/wiki/articles/Main_Page). Each component of the emulator is accompanied with documentation and text from the wiki.

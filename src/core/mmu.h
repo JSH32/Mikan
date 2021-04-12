@@ -29,8 +29,9 @@ namespace Mikan {
          */
         void switchSpeed();
 
-        uint8_t get(uint16_t address) override;
-        void set(uint16_t address, uint8_t value) override;
+        // Memory implementation
+        uint8_t get(uint16_t address);
+        void set(uint16_t address, uint8_t value);
     private:
         /**
          * High page memory, accessed between ranges 0xff80-0xfffe and located on the CPU die. 

@@ -69,7 +69,6 @@ int main(int argc, char** argv) {
         // Write frame/gui code in this scope
         {
             if (ImGui::BeginMainMenuBar()) {
-                std::cout << ImGui::GetWindowSize().y << std::endl;
                 if (ImGui::BeginMenu("File")) {
                     if (ImGui::MenuItem("Open")) {
                         
