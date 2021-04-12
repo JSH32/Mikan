@@ -18,5 +18,10 @@ namespace Mikan {
          * Get all cartridge RAM content
          */
         virtual std::vector<uint8_t> dump() = 0;
+
+        /**
+         * Create cartridge from rom with the proper MBC
+         */
+        static Cartridge& init(std::vector<uint8_t> rom);
     };
 }

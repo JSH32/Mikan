@@ -5,6 +5,7 @@
 #include "memory.h"
 #include "interrupt.h"
 #include "joypad.h"
+#include "cartridge/cartridge.h"
 
 namespace Mikan {
     /**
@@ -20,6 +21,7 @@ namespace Mikan {
      */
     class MMU : public Memory {
     public:
+        Cartridge& cartridge;
         Speed speed = Speed::Normal;
         bool shift = false;
         Joypad joypad;

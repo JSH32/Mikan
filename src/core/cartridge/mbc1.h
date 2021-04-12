@@ -55,7 +55,7 @@ namespace Mikan {
      * The program may freely switch between both modes, the only limitiation is that only RAM Bank 00h can be used during
      * Mode 0, and only ROM Banks 00-1Fh can be used during Mode 1.
      */
-    class MBC1 : public Memory, Cartridge {
+    class MBC1 : public Memory, public Cartridge {
     public:
         MBC1(std::vector<uint8_t> rom, std::vector<uint8_t> ram) : rom(rom), ram(ram) {};
 

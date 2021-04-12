@@ -20,4 +20,8 @@ namespace Mikan {
 
         return str;
     }
+
+    Cartridge& Cartridge::init(std::vector<uint8_t> rom) {
+
+    }
 }
