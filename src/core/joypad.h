@@ -1,6 +1,7 @@
 #pragma once
 
 #include "interrupt.h";
+#include "memory.h"
 
 namespace Mikan {
     /**
@@ -15,17 +16,21 @@ namespace Mikan {
      * Bit 1 - P11 Input Left  or Button B (0=Pressed) (Read Only)
      * Bit 0 - P10 Input Right or Button A (0=Pressed) (Read Only)
      */
-    class Joypad {
+    class Joypad : public Memory {
     public:
-        Interrupt& interrupt;
+        Interrupt& interruptFlag;
 
         uint8_t matrix = 0xff;
         uint8_t select = 0x00;
 
-        Joypad(Interrupt& interrupt) : interrupt(interrupt) {};
+        Joypad(Interrupt& interruptFlag) : interruptFlag(interruptFlag) {};
 
         void keyDown(JoypadKey key);
         void keyUp(JoypadKey key);
+
+        // Memory implementation
+        uint8_t get(uint16_t address);
+        void set(uint16_t address, uint8_t value);
     };
 
     enum class JoypadKey {
