@@ -6,6 +6,9 @@
 #include "interrupt.h"
 #include "joypad.h"
 #include "cartridge/cartridge.h"
+#include "gpu/hdma.h"
+#include "timer.h"
+#include "serial.h"
 
 namespace Mikan {
     /**
@@ -21,10 +24,14 @@ namespace Mikan {
      */
     class MMU : public Memory {
     public:
+        MMU(Cartridge& cartridge);
+
         Cartridge& cartridge;
         Speed speed = Speed::Normal;
         bool shift = false;
-        Joypad joypad;
+        Joypad joypad = Joypad(interruptFlag);
+        Timer timer = Timer(interruptFlag);
+        Serial serial = Serial(interruptFlag);
 
         /**
          * Switch the speed to the opposite option
@@ -46,9 +53,11 @@ namespace Mikan {
          * Internal workram 
          */
         uint8_t wram[0x8000];
-        size_t wramBank = 0x01;
+        uint8_t wramBank = 0x01;
 
-        Interrupt interrupt;
+        Hdma hdma;
+
+        Interrupt interruptFlag;
         uint8_t interruptEnable = 0x00;
     };
 }
